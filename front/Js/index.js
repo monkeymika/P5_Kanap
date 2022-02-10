@@ -7,7 +7,7 @@ fetch(url)
   .then(response => {
     if (response.ok){
       response.json().then(function(products) {
-        for (let i = 0; i < products.length; i++) {
+        for (let i = 0; i < products.length; i++) { //Boucle qui récupére le tableau des canapés
           let product = products[i];
           console.log(product);
 
@@ -24,7 +24,7 @@ fetch(url)
           items.insertAdjacentHTML("beforeend", insert);
         }
       });
-    } else {
+    } else { // En cas de probléme avec l'API
       console.log("Il y a une erreur");
       document.querySelector('#items').textContent = "Il y a une erreur";
     }
@@ -43,25 +43,3 @@ fetch(url)
 
 
 
-// .then((response) => response.json())// On demande que la réponse soit retourné au format Json
-  // .then(function (products) {
-  //   for (let i = 0; i < products.length; i++) {
-  //     let product = products[i];
-  //     console.log(product);
-      
-      /*Template de la div #items en HTML*/
-      // const insert = 
-      // `<a href="./product.html?id=${product._id}">
-      //   <article>
-      //     <img src="${product.imageUrl}" altTxt=${product.altTxt}>
-      //     <h3 class="productName">${product.name}</h3>
-      //     <p class="productDescription">${product.description}</p>
-      //   </article>
-      // </a> `; 
-      
-  //     items.insertAdjacentHTML("beforeend", insert);
-  //   }
-  // });
-      
-        
- 
