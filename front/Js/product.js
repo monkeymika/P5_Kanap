@@ -3,7 +3,8 @@
 
 let str = window.location.href;// Contient l'url compléte de la page en cours de visite
 let url = new URL(str);// La variable contient l'objet URL
-let id = url.searchParams.get("id");// On prend l'ID de l'URL          
+let id = url.searchParams.get("id");// On prend l'ID de l'URL 
+let itemPrice = 0;
 
 let UrlKanap = `http://localhost:3000/api/products/` + id; 
 
@@ -18,8 +19,12 @@ fetch(`http://localhost:3000/api/products/` + id)
     //Etape 6 : Insérer un produit et ses détails dans la page Produit
 
     function displayProducts(kanap) {
-      const { colors, name, price, imageUrl, description, altTxt} = kanap;
+      let  { colors, name, price, imageUrl, description, altTxt} = kanap;
       
+      itemPrice = price;// Le prix est récupére de l'API est collé dans la variable itempPrice
+      imgUrl = imageUrl;
+      altText = altTxt;
+
       //Appel des fonctions
 
       makeColors(colors);
@@ -67,4 +72,28 @@ fetch(`http://localhost:3000/api/products/` + id)
     console.log("Il y a une erreur");
     document.querySelector('.item__img').textContent = "Nous rencontrons actuellement un probléme, essayez de nouveau plus tard";
   }
+});
+
+// Etape 7 : Ajouter des produits dans le panier (localStorage)
+
+// Ajout d'un évenement au click : si l'utilisateur ne choisi pas une couleur et la quantité, une alert se lancera 
+const button = document.querySelector('#addToCart')
+button.addEventListener('click', () => {
+  const color = document.querySelector('#colors').value
+  const quantity = document.querySelector('#quantity').value
+  if (color == null || color === "" || quantity == null|| quantity == 0) {
+    alert("Sélectionnez une couleur et le nombre d'article que vous voulez!")
+  }
+
+
+  const stock = {// Objet qui sera stocké dans le local storage
+    id: id,
+    price: itemPrice,
+    color: color,
+    quantity: Number(quantity),
+  }
+  // le local storage n'est pas capable des storer des 'objet',
+  //on est obligé de les transformer en 'strin', et c'est à ça que sert la JSON.stringify
+  localStorage.setItem(id,JSON.stringify(stock) );
+  window.location.href ="cart.html";// Redirige vers la page cart.html
 });
