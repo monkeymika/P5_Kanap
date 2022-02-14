@@ -5,6 +5,8 @@ let str = window.location.href;// Contient l'url compléte de la page en cours d
 let url = new URL(str);// La variable contient l'objet URL
 let id = url.searchParams.get("id");// On prend l'ID de l'URL 
 let itemPrice = 0;
+let imgForCart;
+let altTxtForCart;
 
 let UrlKanap = `http://localhost:3000/api/products/` + id; 
 
@@ -21,9 +23,10 @@ fetch(`http://localhost:3000/api/products/` + id)
     function displayProducts(kanap) {
       let  { colors, name, price, imageUrl, description, altTxt} = kanap;
       
-      itemPrice = price;// Le prix est récupére de l'API est collé dans la variable itempPrice
-      imgUrl = imageUrl;
-      altText = altTxt;
+      itemPrice = price;// Le prix est récupére de l'API est collé dans la variable itemPrice
+      imgForCart = imageUrl;
+      altTxtForCart = altTxt;
+
 
       //Appel des fonctions
 
@@ -83,17 +86,19 @@ button.addEventListener('click', () => {
   const quantity = document.querySelector('#quantity').value
   if (color == null || color === "" || quantity == null|| quantity == 0) {
     alert("Sélectionnez une couleur et le nombre d'article que vous voulez!")
+    return;
   }
-
 
   const stock = {// Objet qui sera stocké dans le local storage
     id: id,
     price: itemPrice,
     color: color,
     quantity: Number(quantity),
+    imageUrl: imgForCart,
+    altTxt: altTxtForCart,
   }
   // le local storage n'est pas capable des storer des 'objet',
-  //on est obligé de les transformer en 'strin', et c'est à ça que sert la JSON.stringify
+  //on est obligé de les transformer en 'string', et c'est à ça que sert la JSON.stringify
   localStorage.setItem(id,JSON.stringify(stock) );
   window.location.href ="cart.html";// Redirige vers la page cart.html
 });
