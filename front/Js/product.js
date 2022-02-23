@@ -53,17 +53,15 @@ button.addEventListener('click', () => {
   if (color == null || color === "" || productQuantity == null|| productQuantity == 0) {
     alert("Sélectionnez une couleur et le nombre d'article que vous voulez!")
   } else { 
-    window.location.href ="cart.html";
+    window.location.href ="cart.html"
   }
 
   // Fonction qui permet de stocker dans le localStorage
-
    saveCart = (panier) => {
     localStorage.setItem("Panier", JSON.stringify(panier));
   }
   
   // Fonction qui permet de récupérer les éléments du localStorage
-
   getCart = () => {
     let panier = localStorage.getItem("Panier");
     if (panier == null) {
@@ -74,7 +72,6 @@ button.addEventListener('click', () => {
   }
 
   // Conditions pour ajouter le produit au panier
-
   addCart = (product) => {
     let panier = getCart();
     
@@ -102,16 +99,13 @@ button.addEventListener('click', () => {
     }
     saveCart(panier);
   }
+  
   // Au clique sur "Ajouter au panier",l'ID, la quantité et la couleur, sont ajouté au panier 
-
   addCart({
   "id": idKanap,
   "quantity": productQuantity,
   "color": productColor});
 });
-
-
-
 
 
 
