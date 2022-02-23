@@ -52,8 +52,8 @@ if (storage === null || storage == 0) {
                         </div>
                     </div>
                 </article>`
-                // Sélection des boutons supprimer
 
+                // Sélection des boutons supprimer
                 document.querySelectorAll(".deleteItem").forEach(button => {
                 // Pour chaque clique
                 button.addEventListener("click", (e) => {
@@ -65,7 +65,7 @@ if (storage === null || storage == 0) {
                     // Actualisation de la page
                     window.location.reload();
                 });
-            })
+            });
             
             // Modification de la quantité
             document.querySelectorAll(".itemQuantity").forEach(inputQuantity => {
@@ -76,11 +76,11 @@ if (storage === null || storage == 0) {
                     let myProduct = storage.find(e => (e.id === id)&&(e.color === color));
                     changeQuantity(myProduct, newQuantity);
                     window.location.reload();
-                })
-            })
-        })
-    })
-}
+                });
+            });
+        });
+    });
+};
 
 // Calcul de la somme des produits
 if (storage !== null){
@@ -104,12 +104,12 @@ if (storage !== null){
     };
 };
 
+//-----------------------------------------------------------------------//
 // --------- Vérification des données saisies par l'utilisateur ---------//
+//-----------------------------------------------------------------------//
 
 const button = document.querySelector('#order');
 button.addEventListener('click',() =>{
-    // window.location.href ="confirmation.html";
-    
     //Récupération des valeurs du formulaire
     const formValues = {
         Prenom: document.querySelector('#firstName').value,
@@ -120,7 +120,8 @@ button.addEventListener('click',() =>{
     }
     console.log(formValues);
 
-    // ************ Gestion validation du formulaire (REGEX) **********//
+// ********************************** Validation du formulaire (REGEX) *********************************************************************//
+
     //Fonction qui affiche un texte dans un 'alert'
     const warning = (value) => {
         return `${value} : 3 caractères min, et 20 caractères max \n Les chiffres et les symboles ne sont pas autorisé`;
@@ -196,7 +197,6 @@ button.addEventListener('click',() =>{
         };
     };
 
-
     // Contrôle de la validité du formulaire avant envoi dans le localStorage
     if (checkFirstName() && checkLastName() && checkAddress() && checkCity() && checkEmail()) {
         // l'objet 'formValues' est placés dans le localStorage
@@ -205,15 +205,16 @@ button.addEventListener('click',() =>{
         alert("Veuillez remplir l'intégralité du formulaire");
     };
 
-
-    //************* Fin - Gestion validation du formulaire */
+//************************************** Fin - Validation du formulaire ***************************************************************//
 
     // Mettre les valeurs du formulaire et les produits séléctionnés dans un objet qui sera envoyé
     const dataToSend = {
         storage,
         formValues,
     };
-    console.log(dataToSend);  
+    console.log(dataToSend); 
+    
+    // window.location.href ="confirmation.html";
 });
 
 // ----------------- Mettre le contenu du localStorage des les champs du formulaire --------------//
@@ -225,15 +226,7 @@ const dataLocalStorage = localStorage.getItem('formValues');
 const dataLocalStorageObjet = JSON.parse(dataLocalStorage);
 
 
-
-// Mettre les values du localStorage dans les champs du formulaire
-document.querySelector('#firstName').value = dataLocalStorageObjet.Prenom;
-document.querySelector('#lastName').value = dataLocalStorageObjet.Nom;
-document.querySelector('#address').value = dataLocalStorageObjet.Adresse;
-document.querySelector('#city').value = dataLocalStorageObjet.Ville;
-document.querySelector('#email').value = dataLocalStorageObjet.Email;
-
-
+// REGEX A CONSOLIDER !!!!!!//
 
 
 
