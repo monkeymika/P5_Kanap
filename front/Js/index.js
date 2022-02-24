@@ -28,10 +28,10 @@ fetch(url)
       </a> `;
 
     items.insertAdjacentHTML("beforeend", insert);
-  };
+  }
 })
 //Se déclenche si la promesse est rejétée, ici en l'occurence, si la correspondance avec le serveur est impossible
-.catch = (function(error) {
-  document.querySelector('#items').textContent = " Nous rencontrons actuellement un probléme au niveau du serveur, veuillez retenter plus tard " + error;
+.catch ((error) => {
+  document.querySelector('#items').textContent = "Nous rencontrons actuellement un probléme au niveau du serveur, veuillez retenter plus tard " + error;
 }); 
 

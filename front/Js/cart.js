@@ -3,7 +3,7 @@ let storage = JSON.parse(localStorage.getItem("Panier"));
 
 // Fonction pour supprimer le produit avec l'id et la couleur correspondante
  eraseCart = (id, color) => {
-    storage = storage.filter(kanap => {
+    storage = storage.filter(kanap => {// La méthode filter crée et retourne un nouveau tableau contenant tous les éléments du tableau d'origine qui remplissent une condition détereminée par la fonction callback
         if(kanap.id == id && kanap.color == color){
             return false;
         } 
@@ -18,12 +18,12 @@ changeQuantity = (kanap, newQuantity) => {
     localStorage.setItem("Panier", JSON.stringify(storage));
 };
 
-// Création d'une fonction qui parcoure le panier
+// Condition pour l'ensemble du panier
 if (storage === null || storage == 0) {
-    document.getElementById("cart__items").textContent = 'Votre panier est vide'
+    document.getElementById("cart__items").textContent = 'Votre panier Kanap est vide'
 
 }else{
-    storage.forEach(function(kanap) {
+    storage.forEach((kanap) => {
         /* Methode Fetch pour récupérer les données qui ne sont pas stockés dans le localStorage, 
         y compris les données sensibles comme le prix*/
         fetch("http://localhost:3000/api/products/" + `${kanap.id}`)
@@ -213,6 +213,9 @@ button.addEventListener('click',() =>{
         formValues,
     };
     console.log(dataToSend); 
+
+    //***************** Afficher le numéro de commande ***************/
+
     
     // window.location.href ="confirmation.html";
 });
@@ -226,7 +229,9 @@ const dataLocalStorage = localStorage.getItem('formValues');
 const dataLocalStorageObjet = JSON.parse(dataLocalStorage);
 
 
-// REGEX A CONSOLIDER !!!!!!//
+
+
+
 
 
 

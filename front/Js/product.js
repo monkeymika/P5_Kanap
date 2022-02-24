@@ -12,25 +12,21 @@ fetch(UrlKanap)
 .then(function(kanap) {
   
   // L'image du produit est inséré dans "img"
-  
-    let img = document.createElement("img");
-    document.querySelector(".item__img").appendChild(img);// J'ajoute la balise <img> dans l'HTML
-    // setAttribute permet d'assigner les données de l'API (ici à src et alt)
-    img.setAttribute("src", `${kanap.imageUrl}`);
-    img.setAttribute("alt", `${kanap.altTxt}`);
+  let img = document.createElement("img");
+  document.querySelector(".item__img").appendChild(img);// J'ajoute la balise <img> dans l'HTML
+  // setAttribute permet d'assigner les données de l'API (ici à src et alt)
+  img.setAttribute("src", `${kanap.imageUrl}`);
+  img.setAttribute("alt", `${kanap.altTxt}`);
 
 // Le nom du produit est inséré dans #name
-
   let name = document.querySelector("#title");
   name.textContent = `${kanap.name}`;
 
 // Insert le prix
-
   let price = document.querySelector("#price");
   price.textContent = `${kanap.price}`;
 
 // Insert la description
-
   let description = document.querySelector("#description");
   description.textContent = `${kanap.description}`;
 
@@ -46,11 +42,11 @@ button.addEventListener('click', () => {
 
   // La couleur et la quantité choisis par l'utilisateur sont récupérés
   let color = document.querySelector("#colors");
-  let productColor = color[color.selectedIndex].text;
+  let productColor = color.options[color.selectedIndex].text;
   let productQuantity = document.querySelector("#quantity").value;
   
   // Si l'utilisateur n'a pas séléctionner de couleur ni de quantité, un message d'alert apparait, et il ne peut pas accéder au panier
-  if (color == null || color === "" || productQuantity == null|| productQuantity == 0) {
+  if (color.selectedIndex == [0]||productQuantity == 0) {
     alert("Sélectionnez une couleur et le nombre d'article que vous voulez!")
   } else { 
     window.location.href ="cart.html"
@@ -71,16 +67,16 @@ button.addEventListener('click', () => {
     }
   }
 
-  // Conditions pour ajouter le produit au panier
+  // Fonction pour ajouter le produit au panier (selon condition)
   addCart = (product) => {
     let panier = getCart();
     
     // Ici, on vérifie si l'ID du canapé est déja présent dans le panier
-    let foundProduct = panier.find(p => p.id == product.id);
+    let foundProduct = panier.find(Element => Element.id == product.id);// Find renvoi la valeur du premier élément trouvé dans le tableau qui respecte la condition donnée par la fonction de test en
     if (foundProduct != undefined){ 
 
       // Si l'ID est bien présent, on vérifie également pour la couleur
-      let foundColor = panier.find(p => p.color == product.color);
+      let foundColor = panier.find(Element => Element.color == product.color);
       if (foundColor != undefined){
 
         // Si l'ID et la couleur sont déja dans le panier, on ajoute la quantité choisi par l'utilisateur
