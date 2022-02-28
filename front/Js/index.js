@@ -5,7 +5,6 @@ const url = "http://localhost:3000/api/products";
 
 //La méthode Fetch récupére les ressources de l'URL
 fetch(url)
-
 // Fetch retourne une promesse contenant la réponse
 // Je convertis la réponse au format JSON
 .then((response => response.json()))

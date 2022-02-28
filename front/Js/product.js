@@ -4,7 +4,7 @@ let idKanap = url.searchParams.get("id"); // L'ID de l'url est récupéré
 
 
 // Je concaténe l'url avec l'ID que j'ai récupéré avec 'searchParams'
-let UrlKanap = `http://localhost:3000/api/products/` + idKanap;// 
+let UrlKanap = `http://localhost:3000/api/products/${idKanap}`;// 
 
 //Insérer un produit et ses détails dans la page Produit
 fetch(UrlKanap)
@@ -50,47 +50,46 @@ button.addEventListener('click', () => {
     alert("Sélectionnez une couleur et le nombre d'article que vous voulez!")
   } else { 
     window.location.href ="cart.html"
-  }
-
-  // Fonction qui permet de stocker dans le localStorage
-   saveCart = (panier) => {
-    localStorage.setItem("Panier", JSON.stringify(panier));
-  }
-  
-  // Fonction qui permet de récupérer les éléments du localStorage
-  getCart = () => {
-    let panier = localStorage.getItem("Panier");
-    if (panier == null) {
-      return [];
-    } else {
-      return JSON.parse(panier);
-    }
-  }
-
-  // Fonction pour ajouter le produit au panier (selon condition)
-  addCart = (product) => {
-    let panier = getCart();
     
-    // Ici, on vérifie si l'ID du canapé est déja présent dans le panier
-    let foundProduct = panier.find(Element => Element.id == product.id);// Find renvoi la valeur du premier élément trouvé dans le tableau qui respecte la condition donnée par la fonction de test en
-    if (foundProduct != undefined){ 
-
-      // Si l'ID est bien présent, on vérifie également pour la couleur
-      let foundColor = panier.find(Element => Element.color == product.color);
-      if (foundColor != undefined){
-
+    // Fonction qui permet de stocker dans le localStorage
+    saveCart = (panier) => {
+      localStorage.setItem("Panier", JSON.stringify(panier));
+    }
+    
+    // Fonction qui permet de récupérer les éléments du localStorage
+    getCart = () => {
+      let panier = localStorage.getItem("Panier");
+      if (panier == null) {
+        return [];
+      } else {
+        return JSON.parse(panier);
+      }
+    }
+    
+    // Fonction pour ajouter le produit au panier (selon condition)
+    addCart = (product) => {
+      let panier = getCart();
+      
+      // Ici, on vérifie si l'ID du canapé est déja présent dans le panier
+      let foundProduct = panier.find(Element => Element.id == product.id);// Find renvoi la valeur du premier élément trouvé dans le tableau qui respecte la condition donnée par la fonction de test en
+      if (foundProduct != undefined){ 
+        
+        // Si l'ID est bien présent, on vérifie également pour la couleur
+        let foundColor = panier.find(Element => Element.color == product.color);
+        if (foundColor != undefined){
+          
         // Si l'ID et la couleur sont déja dans le panier, on ajoute la quantité choisi par l'utilisateur
         foundColor.quantity = foundColor.quantity + JSON.parse(productQuantity) ;
       }else{
         product.quantity = JSON.parse(productQuantity);
         panier.push(product);
       } 
-
-    // Sinon, on le rajoute dans le panier si la quantité est supérieure à 0   
+      
+      // Sinon, on le rajoute dans le panier si la quantité est supérieure à 0   
     }else{
-      if(productQuantity >0){
+      if(productQuantity > 0){
         product.quantity = JSON.parse(productQuantity);
-          panier.push(product);
+        panier.push(product);
       }     
     }
     saveCart(panier);
@@ -98,9 +97,10 @@ button.addEventListener('click', () => {
   
   // Au clique sur "Ajouter au panier",l'ID, la quantité et la couleur, sont ajouté au panier 
   addCart({
-  "id": idKanap,
-  "quantity": productQuantity,
-  "color": productColor});
+    "id": idKanap,
+    "quantity": productQuantity,
+    "color": productColor});
+  }
 });
 
 
