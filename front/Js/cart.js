@@ -130,95 +130,8 @@ buttonOrder.addEventListener('click',(e) => {
         city: document.querySelector('#city').value,
         email: document.querySelector('#email').value
     }
-    console.log(contact);
 
-
-// ------------------- validation du formulaire (regex) -------------------------------//
-
-// Fonction qui affiche un texte si jamais les champs ne sont pas bien remplis
-const warning = (value) => {
-    return `${value} : Les chiffres et les symboles ne sont pas autorisés \n 3 lettres minimum et 20 lettres maximum`
-}
-
-// fonction contenant la regEx pour la validation du prénom, le nom, et la ville
-const regExFirstNameLastNameCity = (value) => {
-    return /^([a-zA-Z]{3,20})?([-]{0,1})?([a-zA-Z]{3,20})$/.test(value);
-}
-
-// Fonction contenant la regEx pour la validation de l'adresse
-const regExAdress = (value) => {
-    return /^[a-zA-Z0-9\s,.'-]{3,}$/.test(value);
-}
-
-//Fonction contenant la regex pour la validation de l'adresse mail
-const regExMail = (value) => {
-    return /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(value);
-}
-
-
-//Contrôle de la validité du prenom
-    checkFirstName = () => { 
-        const theFirstName = contact.firstName;
-        if (regExFirstNameLastNameCity(theFirstName)) {
-            document.querySelector('#firstNameErrorMsg').textContent = "";
-            return true;
-        } else {
-            document.querySelector('#firstNameErrorMsg').textContent = "Le prénom n'est pas valide";           
-            return false;
-        };
-    };
-
-//Contrôle de la validité du nom
-    checkLastName = () => { 
-        const theLastName = contact.lastName;
-        if (regExFirstNameLastNameCity(theLastName)) {
-            document.querySelector('#lastNameErrorMsg').textContent = "";            
-            return true;
-        } else {
-            document.querySelector('#lastNameErrorMsg').textContent = "Le nom n'est pas valide";  
-            return false;
-        };
-    };
-
-//Contrôle de la validité de l'adresse
-    checkAdress = () => { 
-        const theAdress = contact.address;
-        if (regExAdress(theAdress)) {
-            document.querySelector('#addressErrorMsg').textContent = ""; 
-            return true;
-        } else {
-            document.querySelector('#addressErrorMsg').textContent = "L'adresse n'est pas valide"; 
-            return false;
-        };
-    };
-
-//Contrôle de la validité de la ville
-    checkCity = () => { 
-        const theCity = contact.city;
-        if (regExFirstNameLastNameCity(theCity)) {
-            document.querySelector('#cityErrorMsg').textContent = ""; 
-            return true;
-        } else {
-            document.querySelector('#cityErrorMsg').textContent = "La ville n'est pas valide"; 
-            return false;
-        };
-    };
-
-    //Contrôle de la validité de l'email
-    checkEmail = () => { 
-        const theEmail = contact.email;
-        if (regExMail(theEmail)) {
-            document.querySelector('#emailErrorMsg').textContent = ""; 
-            return true;
-        } else {
-            document.querySelector('#emailErrorMsg').textContent = "L'adresse mail n'est pas valide"; 
-            return false;
-        };
-    };
-    
-
-
-    if (checkFirstName() && checkLastName() && checkAdress() && checkCity() && checkEmail()) {  
+    if (checkFirstName(contact) && checkLastName(contact) && checkAdress(contact) && checkCity(contact) && checkEmail(contact)) {  
         // Mettre l'objet 'contact' dans le localStorage
         localStorage.setItem('contact', JSON.stringify(contact))// stringify transforme l'objet en chaine de caractere
         
@@ -272,13 +185,96 @@ if(dataLocalStorageObjet == null) {
 
 
 
+/*** dans un fichier validation ***/
+
+
+// ------------------- validation du formulaire (regex) -------------------------------//
+
+// Fonction qui affiche un texte si jamais les champs ne sont pas bien remplis
+const warning = (value) => {
+    return `${value} : Les chiffres et les symboles ne sont pas autorisés \n 3 lettres minimum et 20 lettres maximum`
+}
+
+// fonction contenant la regEx pour la validation du prénom, le nom, et la ville
+const regExFirstNameLastNameCity = (value) => {
+    return /^([a-zA-Z]{3,20})?([-]{0,1})?([a-zA-Z]{3,20})$/.test(value);
+}
+
+// Fonction contenant la regEx pour la validation de l'adresse
+const regExAdress = (value) => {
+    return /^[a-zA-Z0-9\s,.'-]{3,}$/.test(value);
+}
+
+//Fonction contenant la regex pour la validation de l'adresse mail
+const regExMail = (value) => {
+    return /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(value);
+}
 
 
 
+// controle 
 
 
+//Contrôle de la validité du prenom
+    checkFirstName = (contact) => { 
+        const theFirstName = contact.firstName;
+        if (regExFirstNameLastNameCity(theFirstName)) {
+            document.querySelector('#firstNameErrorMsg').textContent = "";
+            return true;
+        } else {
+            document.querySelector('#firstNameErrorMsg').textContent = "Le prénom n'est pas valide";           
+            return false;
+        };
+    };
 
+//Contrôle de la validité du nom
+    checkLastName = (contact) => { 
+        const theLastName = contact.lastName;
+        if (regExFirstNameLastNameCity(theLastName)) {
+            document.querySelector('#lastNameErrorMsg').textContent = "";            
+            return true;
+        } else {
+            document.querySelector('#lastNameErrorMsg').textContent = "Le nom n'est pas valide";  
+            return false;
+        };
+    };
 
+//Contrôle de la validité de l'adresse
+    checkAdress = (contact) => { 
+        const theAdress = contact.address;
+        if (regExAdress(theAdress)) {
+            document.querySelector('#addressErrorMsg').textContent = ""; 
+            return true;
+        } else {
+            document.querySelector('#addressErrorMsg').textContent = "L'adresse n'est pas valide"; 
+            return false;
+        };
+    };
+
+//Contrôle de la validité de la ville
+    checkCity = (contact) => { 
+        const theCity = contact.city;
+        if (regExFirstNameLastNameCity(theCity)) {
+            document.querySelector('#cityErrorMsg').textContent = ""; 
+            return true;
+        } else {
+            document.querySelector('#cityErrorMsg').textContent = "La ville n'est pas valide"; 
+            return false;
+        };
+    };
+
+    //Contrôle de la validité de l'email
+    checkEmail = (contact) => { 
+        const theEmail = contact.email;
+        if (regExMail(theEmail)) {
+            document.querySelector('#emailErrorMsg').textContent = ""; 
+            return true;
+        } else {
+            document.querySelector('#emailErrorMsg').textContent = "L'adresse mail n'est pas valide"; 
+            return false;
+        };
+    };
+    
 
 
 
