@@ -117,10 +117,9 @@ if (panier !== null){
     }
 };
 
-
-
+//Evenement au clic sur le bouton commander
 const buttonOrder = document.querySelector('#order');
-buttonOrder.addEventListener('click',(e) =>{
+buttonOrder.addEventListener('click',(e) => {
     e.preventDefault();
 
     //Récupération des valeurs (que je met dans un objet) du formulaire qui vont aller dans le localStorage
@@ -222,33 +221,33 @@ const regExMail = (value) => {
     if (checkFirstName() && checkLastName() && checkAdress() && checkCity() && checkEmail()) {  
         // Mettre l'objet 'contact' dans le localStorage
         localStorage.setItem('contact', JSON.stringify(contact))// stringify transforme l'objet en chaine de caractere
+        
+        // ----------------- fin - validation du formulaire (regex)----------------------------//
+        
+        // Mettre les 'values' du formulaire et mettre les produits sélectionnés dans un objet à envoyer vers le serveur
+        const dataToSend = {
+            products,
+            contact
+        }
+        
+        // Envoi de l'objet 'dataToSend' vers le serveur
+        fetch("http://localhost:3000/api/products/order", {
+            method: 'POST',
+            body: JSON.stringify(dataToSend),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        })
+        .then(response => response.json())
+        .then(function(data){
+            window.location.href = "./confirmation.html?id=" + data.orderId;
+        })
+        
     } else {
         alert("Le formulaire n'est pas correctement rempli");
     };
-
-// ----------------- fin - validation du formulaire (regex)----------------------------//
-
-    // Mettre les 'values' du formulaire et mettre les produits sélectionnés dans un objet à envoyer vers le serveur
-    const dataToSend = {
-      products,
-      contact
-    }
-
-    // Envoi de l'objet 'dataToSend' vers le serveur
-    fetch("http://localhost:3000/api/products/order", {
-        method: 'POST',
-        body: JSON.stringify(dataToSend),
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-    })
-    .then(response => response.json())
-    .then(function(data){
-        window.location.href = "./confirmation.html?id=" + data.orderId;
-    })
-
-    
+        
 
 });
 

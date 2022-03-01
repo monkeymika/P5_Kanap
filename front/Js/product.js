@@ -40,6 +40,7 @@ fetch(UrlKanap)
 const button = document.querySelector("#addToCart");
 button.addEventListener('click', () => {
 
+
   // La couleur et la quantité choisis par l'utilisateur sont récupérés
   let color = document.querySelector("#colors");
   let productColor = color.options[color.selectedIndex].text;
@@ -87,9 +88,12 @@ button.addEventListener('click', () => {
       
       // Sinon, on le rajoute dans le panier si la quantité est supérieure à 0   
     }else{
-      if(productQuantity > 0){
+      if(productQuantity > 0 && productQuantity < 100 ){
         product.quantity = JSON.parse(productQuantity);
         panier.push(product);
+      }else {
+        alert('Vous ne pouvez pas prendre plus de 100 article');
+        window.location.href = "";
       }     
     }
     saveCart(panier);
