@@ -1,3 +1,5 @@
+/****************************** Lien entre la page d'accueil et la page produit ******************************************** */
+
 let str = window.location.href; // L'url de la page en cours est stocké dans la variable str
 let url = new URL(str); // Créer une URL qui pointe vers 'str' donc 'http://localhost:3000/api/products/
 let idKanap = url.searchParams.get("id"); // L'ID de l'url est récupéré 
@@ -5,6 +7,10 @@ let idKanap = url.searchParams.get("id"); // L'ID de l'url est récupéré
 
 // Je concaténe l'url avec l'ID que j'ai récupéré avec 'searchParams'
 let UrlKanap = `http://localhost:3000/api/products/${idKanap}`;// 
+
+/****************************************************** Fin ******************************************************************* */
+
+/*********************************** Insertion des produits et ses détails dans la page produit *********************************/
 
 //Insérer un produit et ses détails dans la page Produit
 fetch(UrlKanap)
@@ -36,6 +42,10 @@ fetch(UrlKanap)
   ); 
 });
    
+/************************************************************ Fin *************************************************************** */
+
+/************************************ Ajout des produits dans le panier (localStorage) *******************************************/
+
 // Ajout d'un événement lors du clic sur le bouton 'panier'
 const button = document.querySelector("#addToCart");
 button.addEventListener('click', () => {

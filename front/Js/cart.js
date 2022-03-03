@@ -104,9 +104,9 @@ if (panier !== null){
     };
 };
 
-//-----------------------------------------------------------------------//
-// ----------------------- Formulaire -----------------------------------//
-//-----------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------------------------//
+// ------------------------------------------- Formulaire -----------------------------------------------------------------//
+//------------------------------------------------------------------------------------------------------------------------//
 
 // Fonction pour créer un tableau de produits
 let products = [];
@@ -117,7 +117,105 @@ if (panier !== null){
     }
 };
 
-//Evenement au clic sur le bouton commander
+//***************************************** REGEX ********************************************************* */
+// fonction contenant la regEx pour la validation du prénom, le nom, et la ville
+const regExFirstNameLastNameCity = (value) => {
+return /^([a-zA-Zàâäéèêëïîôöùûüç' ]+){3,20}$/.test(value);
+}
+
+// Fonction contenant la regEx pour la validation de l'adresse
+const regExAdress = (value) => {
+return /^[a-zA-Z0-9\s,.'-]{3,}$/.test(value);
+}
+
+//Fonction contenant la regex pour la validation de l'adresse mail
+const regExMail = (value) => {
+return /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(value);
+}
+/**************************************** Fin des REGEX *************************************************** */
+
+/************************ Fonctions qui controle la validité du formulaire********************************* */ 
+
+//Contrôle de la validité du prenom
+checkFirstName = (contact) => { 
+    const theFirstName = contact.firstName;
+    if (regExFirstNameLastNameCity(theFirstName)) {
+        document.querySelector('#firstNameErrorMsg').textContent = "";
+        return true;
+    } else {
+        document.querySelector('#firstNameErrorMsg').textContent = "Le prénom n'est pas valide";           
+        return false;
+    };
+};
+
+//Contrôle de la validité du nom
+checkLastName = (contact) => { 
+    const theLastName = contact.lastName;
+    if (regExFirstNameLastNameCity(theLastName)) {
+        document.querySelector('#lastNameErrorMsg').textContent = "";            
+        return true;
+    } else {
+        document.querySelector('#lastNameErrorMsg').textContent = "Le nom n'est pas valide";  
+        return false;
+    };
+};
+
+//Contrôle de la validité de l'adresse
+checkAdress = (contact) => { 
+    const theAdress = contact.address;
+    if (regExAdress(theAdress)) {
+         document.querySelector('#addressErrorMsg').textContent = ""; 
+        return true;
+    } else {
+        document.querySelector('#addressErrorMsg').textContent = "L'adresse n'est pas valide"; 
+        return false;
+    };
+};
+
+//Contrôle de la validité de la ville
+checkCity = (contact) => { 
+    const theCity = contact.city;
+    if (regExFirstNameLastNameCity(theCity)) {
+         document.querySelector('#cityErrorMsg').textContent = ""; 
+        return true;
+    } else {
+        document.querySelector('#cityErrorMsg').textContent = "La ville n'est pas valide"; 
+        return false;
+    };
+};
+
+//Contrôle de la validité de l'email
+checkEmail = (contact) => { 
+    const theEmail = contact.email;
+    if (regExMail(theEmail)) {
+        document.querySelector('#emailErrorMsg').textContent = ""; 
+        return true;
+    } else {
+        document.querySelector('#emailErrorMsg').textContent = "L'adresse mail n'est pas valide"; 
+        return false;
+    };
+};
+// ****************************************************************** Fin *******************************************************************//
+
+/* ***********Mettre les valeurs du localStorage dans les champs du formulaire(permet de les conserver même au changement de page)*******************************/
+
+const dataLocalStorage = localStorage.getItem('contact');
+
+const dataLocalStorageObjet = JSON.parse(dataLocalStorage);
+
+// Mettre les valeurs du localStorage dans les champs du formulaire(permet de les conserver même au changement de page)
+if(dataLocalStorageObjet == null) {
+    console.log('le formulaire est vide');
+} else {
+    document.querySelector("#firstName").value = dataLocalStorageObjet.firstName;
+    document.querySelector("#lastName").value = dataLocalStorageObjet.lastName;
+    document.querySelector("#address").value = dataLocalStorageObjet.address;
+    document.querySelector("#city").value = dataLocalStorageObjet.city;
+    document.querySelector("#email").value = dataLocalStorageObjet.email;
+}
+/******************************** fin ******************************************************************************************** */
+
+/***************************************Evenement au clic sur le bouton commander**************************************************/
 const buttonOrder = document.querySelector('#order');
 buttonOrder.addEventListener('click',(e) => {
     e.preventDefault();
@@ -132,97 +230,17 @@ buttonOrder.addEventListener('click',(e) => {
     }
     console.log(contact);
 
+    checkFirstName(contact);
+    checkLastName(contact);
+    checkAdress(contact);
+    checkCity(contact);
+    checkEmail(contact);
 
-// ------------------- validation du formulaire (regex) -------------------------------//
+    // ------------------- Si tous les input sont conformes, les valeurs sont stockés dans le localStorage -------------------------------//
 
-// Fonction qui affiche un texte si jamais les champs ne sont pas bien remplis
-const warning = (value) => {
-    return `${value} : Les chiffres et les symboles ne sont pas autorisés \n 3 lettres minimum et 20 lettres maximum`
-}
-
-// fonction contenant la regEx pour la validation du prénom, le nom, et la ville
-const regExFirstNameLastNameCity = (value) => {
-    return /^([a-zA-Z]{3,20})?([-]{0,1})?([a-zA-Z]{3,20})$/.test(value);
-}
-
-// Fonction contenant la regEx pour la validation de l'adresse
-const regExAdress = (value) => {
-    return /^[a-zA-Z0-9\s,.'-]{3,}$/.test(value);
-}
-
-//Fonction contenant la regex pour la validation de l'adresse mail
-const regExMail = (value) => {
-    return /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(value);
-}
-
-
-//Contrôle de la validité du prenom
-    checkFirstName = () => { 
-        const theFirstName = contact.firstName;
-        if (regExFirstNameLastNameCity(theFirstName)) {
-            document.querySelector('#firstNameErrorMsg').textContent = "";
-            return true;
-        } else {
-            document.querySelector('#firstNameErrorMsg').textContent = "Le prénom n'est pas valide";           
-            return false;
-        };
-    };
-
-//Contrôle de la validité du nom
-    checkLastName = () => { 
-        const theLastName = contact.lastName;
-        if (regExFirstNameLastNameCity(theLastName)) {
-            document.querySelector('#lastNameErrorMsg').textContent = "";            
-            return true;
-        } else {
-            document.querySelector('#lastNameErrorMsg').textContent = "Le nom n'est pas valide";  
-            return false;
-        };
-    };
-
-//Contrôle de la validité de l'adresse
-    checkAdress = () => { 
-        const theAdress = contact.address;
-        if (regExAdress(theAdress)) {
-            document.querySelector('#addressErrorMsg').textContent = ""; 
-            return true;
-        } else {
-            document.querySelector('#addressErrorMsg').textContent = "L'adresse n'est pas valide"; 
-            return false;
-        };
-    };
-
-//Contrôle de la validité de la ville
-    checkCity = () => { 
-        const theCity = contact.city;
-        if (regExFirstNameLastNameCity(theCity)) {
-            document.querySelector('#cityErrorMsg').textContent = ""; 
-            return true;
-        } else {
-            document.querySelector('#cityErrorMsg').textContent = "La ville n'est pas valide"; 
-            return false;
-        };
-    };
-
-    //Contrôle de la validité de l'email
-    checkEmail = () => { 
-        const theEmail = contact.email;
-        if (regExMail(theEmail)) {
-            document.querySelector('#emailErrorMsg').textContent = ""; 
-            return true;
-        } else {
-            document.querySelector('#emailErrorMsg').textContent = "L'adresse mail n'est pas valide"; 
-            return false;
-        };
-    };
-    
-
-
-    if (checkFirstName() && checkLastName() && checkAdress() && checkCity() && checkEmail()) {  
+    if (checkFirstName(contact) && checkLastName(contact) && checkAdress(contact) && checkCity(contact) && checkEmail(contact)) {  
         // Mettre l'objet 'contact' dans le localStorage
         localStorage.setItem('contact', JSON.stringify(contact))// stringify transforme l'objet en chaine de caractere
-        
-        // ----------------- fin - validation du formulaire (regex)----------------------------//
         
         // Mettre les 'values' du formulaire et mettre les produits sélectionnés dans un objet à envoyer vers le serveur
         const dataToSend = {
@@ -247,28 +265,9 @@ const regExMail = (value) => {
     } else {
         alert("Le formulaire n'est pas correctement rempli");
     };
-        
-
 });
 
 
-// ************* Mettre le contenu du localStorage dans les champs du formulaire********************//
-// Prendre la key dans le localStorage et la mettre dans une variable
-const dataLocalStorage = localStorage.getItem('contact');
-
-// Convertir la chaîne de caractère en objet javascript
-const dataLocalStorageObjet = JSON.parse(dataLocalStorage);
-
-// Mettre les values du localStorage dans les champs du formulaire(permet de les conserver même au changement de page)
-if(dataLocalStorageObjet == null) {
-    console.log('le formulaire est vide');
-} else {
-    document.querySelector("#firstName").value = dataLocalStorageObjet.firstName;
-    document.querySelector("#lastName").value = dataLocalStorageObjet.lastName;
-    document.querySelector("#address").value = dataLocalStorageObjet.address;
-    document.querySelector("#city").value = dataLocalStorageObjet.city;
-    document.querySelector("#email").value = dataLocalStorageObjet.email;
-}
 
 
 

@@ -3,6 +3,9 @@
 const items = document.querySelector("#items");
 const url = "http://localhost:3000/api/products";
 
+
+/******************************* Insertion des produits dans la page d'accueil****************************************************** */
+
 //La méthode Fetch récupére les ressources de l'URL
 fetch(url)
 // Fetch retourne une promesse contenant la réponse
