@@ -125,7 +125,7 @@ return /^([a-zA-Zàâäéèêëïîôöùûüç' ]+){3,20}$/.test(value);
 
 // Fonction contenant la regEx pour la validation de l'adresse
 const regExAdress = (value) => {
-return /^[a-zA-Z0-9\s,.'-]{3,}$/.test(value);
+return /^[a-zA-Zàâäéèêëïîôöùûüç'0-9\s,.'-]{3,}$/.test(value);
 }
 
 //Fonction contenant la regex pour la validation de l'adresse mail
