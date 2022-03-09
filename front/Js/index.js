@@ -20,7 +20,7 @@ fetch(url)
 
     /*Template de la section #items en HTML, les produits seron injectés dedans*/
     const insert = 
-    // Ici, le href envoi sur la page produit, en affichant le canapé voulu (via l'ID)
+    // Ici, le href envoi sur la page produit, en affichant l'id du canapé dans l'URL
       `<a href="./product.html?id=${product._id}">
         <article>
         <img src="${product.imageUrl}" altTxt=${product.altTxt}>

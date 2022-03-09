@@ -1,12 +1,11 @@
 /****************************** Lien entre la page d'accueil et la page produit ******************************************** */
 
 let str = window.location.href; // L'url de la page en cours est stocké dans la variable str
-let url = new URL(str); // Créer une URL qui pointe vers 'str' donc 'http://localhost:3000/api/products/
+let url = new URL(str); // Renvoi un objet
 let idKanap = url.searchParams.get("id"); // L'ID de l'url est récupéré 
 
-
 // Je concaténe l'url avec l'ID que j'ai récupéré avec 'searchParams'
-let UrlKanap = `http://localhost:3000/api/products/${idKanap}`;// 
+let UrlKanap = `http://localhost:3000/api/products/${idKanap}`;
 
 /****************************************************** Fin ******************************************************************* */
 
