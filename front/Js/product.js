@@ -81,7 +81,7 @@ button.addEventListener('click', () => {
       let panier = getCart();
       
       // Ici, on vérifie si l'ID du canapé est déja présent dans le panier
-      let foundProduct = panier.find(Element => Element.id == product.id);// Find renvoi la valeur du premier élément trouvé dans le tableau qui respecte la condition donnée par la fonction de test en
+      let foundProduct = panier.find(Element => Element.id == product.id);
       if (foundProduct != undefined){ 
         
         // Si l'ID est bien présent, on vérifie également pour la couleur

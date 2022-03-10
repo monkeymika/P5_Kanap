@@ -1,9 +1,15 @@
+/********************************Récupération du localStorage **********************************************************/
+
 // Les éléments du localStorage sont récupérées
 let panier = JSON.parse(localStorage.getItem("Panier"));
 
+/********************************************* Fin ****************************************************************** */
+
+/******************************** Modification du panier ************************************************************ */
+
 // Fonction pour supprimer le produit avec l'id et la couleur correspondante
- eraseCart = (id, color) => {
-    panier = panier.filter(kanap => {// La méthode filter crée et retourne un nouveau tableau contenant tous les éléments du tableau d'origine qui remplissent une condition détereminée par la fonction callback
+eraseCart = (id, color) => {
+    panier = panier.filter(kanap => {
         if(kanap.id == id && kanap.color == color){
             return false;
         } 
@@ -18,6 +24,7 @@ changeQuantity = (kanap, newQuantity) => {
     localStorage.setItem("Panier", JSON.stringify(panier));
 };
 
+
 // Condition pour l'ensemble du panier
 if (panier === null || panier == 0) {
     document.getElementById("cart__items").textContent = 'Votre panier Kanap est vide'
@@ -27,7 +34,7 @@ if (panier === null || panier == 0) {
         /* Methode Fetch pour récupérer les données qui ne sont pas stockés dans le localStorage, 
         y compris les données sensibles comme le prix*/
         fetch("http://localhost:3000/api/products/" + `${kanap.id}`)
-        .then(data => data.json())
+        .then(response => response.json())
         .then(function(productDetail){
             // Ajout des produits dans la page panier
             document.getElementById("cart__items").innerHTML += `
@@ -56,24 +63,26 @@ if (panier === null || panier == 0) {
                 // Sélection des boutons supprimer
                 document.querySelectorAll(".deleteItem").forEach(button => {
                 // Pour chaque clique
-                button.addEventListener("click", (e) => {
-                    // Récupération de l'id et de la couleur du produit
-                    let removeId = e.currentTarget.closest(".cart__item").dataset.id;
-                    let removeColor = e.currentTarget.closest(".cart__item").dataset.color;
+                button.addEventListener("click", (element) => {
+                    let removeId = element.currentTarget.closest(".cart__item").dataset.id;
+                    let removeColor = element.currentTarget.closest(".cart__item").dataset.color;
+                    console.log(removeId);
+                    console.log(removeColor);
                     // Suppression du produit
                     eraseCart(removeId, removeColor);
+                    console.log(panier);
                     // Actualisation de la page
-                    window.location.reload();
+                    // window.location.reload();
                 });
             });
             
             // Modification de la quantité
             document.querySelectorAll(".itemQuantity").forEach(inputQuantity => {
-                inputQuantity.addEventListener("change", (e) => {
-                    let newQuantity = e.currentTarget.closest(".itemQuantity").value;
-                    let id = e.currentTarget.closest(".cart__item").dataset.id;
-                    let color = e.currentTarget.closest(".cart__item").dataset.color;
-                    let myProduct = panier.find(e => (e.id === id)&&(e.color === color));
+                inputQuantity.addEventListener("change", (element) => {
+                    let newQuantity = element.currentTarget.closest(".itemQuantity").value;
+                    let id = element.currentTarget.closest(".cart__item").dataset.id;
+                    let color = element.currentTarget.closest(".cart__item").dataset.color;
+                    let myProduct = panier.find(element => (element.id === id)&&(element.color === color));
                     changeQuantity(myProduct, newQuantity);
                     window.location.reload();
                 });
@@ -103,6 +112,10 @@ if (panier !== null){
         });
     };
 };
+
+/********************************************* Fin ************************************************************************* */
+
+
 
 //--------------------------------------------------------------------------------------------------------------------------//
 // ------------------------------------------- Formulaire -----------------------------------------------------------------//
@@ -217,8 +230,8 @@ if(dataLocalStorageObjet == null) {
 
 /***************************************Evenement au clic sur le bouton commander**************************************************/
 const buttonOrder = document.querySelector('#order');
-buttonOrder.addEventListener('click',(e) => {
-    e.preventDefault();
+buttonOrder.addEventListener('click',(element) => {
+    element.preventDefault();
 
     //Récupération des valeurs (que je met dans un objet) du formulaire qui vont aller dans le localStorage
     const contact = {
